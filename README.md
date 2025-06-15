@@ -1,6 +1,6 @@
 # YouTube AI Assistant Chrome Extension
 
-A Chrome extension that uses AI to answer questions about YouTube video content using RAG (Retrieval Augmented Generation) with LLaMA2.
+A Chrome extension that uses AI to answer questions about YouTube video content using RAG (Retrieval Augmented Generation) with Mistral AI.
 
 ## Features
 
@@ -14,7 +14,7 @@ A Chrome extension that uses AI to answer questions about YouTube video content 
 
 - **Frontend**: HTML, CSS, JavaScript (Chrome Extension)
 - **Backend**: FastAPI (Python)
-- **AI Model**: LLaMA2 via Ollama
+- **AI Model**: Mistral AI
 - **Libraries**: 
   - youtube-transcript-api
   - requests
@@ -25,9 +25,9 @@ A Chrome extension that uses AI to answer questions about YouTube video content 
 ### Prerequisites
 
 1. Install [Ollama](https://ollama.ai/)
-2. Pull LLaMA2 model:
+2. Pull Mistral model:
    ```bash
-   ollama pull llama2
+   ollama pull mistral
    ```
 
 ### Backend Setup
@@ -58,7 +58,7 @@ A Chrome extension that uses AI to answer questions about YouTube video content 
 
 ## Usage
 
-1. Make sure Ollama is running with LLaMA2 model
+1. Make sure Ollama is running with Mistral model
 2. Start the FastAPI backend server
 3. Open the Chrome extension
 4. Paste a YouTube URL
@@ -72,7 +72,7 @@ YT_SCAN/
 ├── backend/
 │   ├── main.py              # FastAPI server
 │   ├── transcript_handler.py # YouTube transcript extraction
-│   └── llama_chat.py        # LLaMA2 integration
+│   └── llama_chat.py        # Mistral AI integration
 ├── popup.html               # Extension popup UI
 ├── popup.js                 # Frontend JavaScript
 ├── style.css               # Styling
@@ -80,10 +80,39 @@ YT_SCAN/
 └── README.md
 ```
 
+## Configuration
+
+The AI model is configured in `backend/llama_chat.py`. To use Mistral:
+
+```python
+response = requests.post(
+    'http://localhost:11434/api/generate',
+    json={
+        "model": "mistral",  # Using Mistral model
+        "prompt": prompt,
+        "stream": False
+    }
+)
+```
+
 ## API Endpoints
 
 - `POST /ask` - Submit question about YouTube video
 - `GET /` - Health check
+
+## Model Performance
+
+Mistral offers:
+- ✅ Fast response times
+- ✅ High-quality text generation
+- ✅ Good context understanding
+- ✅ Efficient resource usage
+
+## Troubleshooting
+
+1. **Model not found**: Make sure Mistral is pulled with `ollama pull mistral`
+2. **Connection error**: Ensure Ollama is running on `http://localhost:11434`
+3. **Transcript unavailable**: Some videos may not have transcripts available
 
 ## Contributing
 
@@ -95,16 +124,51 @@ YT_SCAN/
 ## License
 
 MIT License
+
+## Acknowledgments
+
+- [Ollama](https://ollama.ai/) for local AI model hosting
+- [Mistral AI](https://mistral.ai/) for the language model
+- YouTube Transcript API for transcript extraction
 ```
 
-Add the README to git:
+Also, you should update your `llama_chat.py` file to use Mistral instead of LLaMA2:
+
+```python:backend/llama_chat.py
+import requests
+
+def generate_answer(context, question):
+    prompt = f"""You are an AI assistant. Use the given context to answer the user's question.
+
+Context:
+{context}
+
+Question:
+{question}
+
+Answer:"""
+
+    response = requests.post(
+        'http://localhost:11434/api/generate',
+        json={
+            "model": "mistral",  # Changed from "llama2" to "mistral"
+            "prompt": prompt,
+            "stream": False
+        }
+    )
+
+    data = response.json()
+    return data['response'].strip()
+```
+
+Now commit these changes:
 
 ```bash
-git add README.md
+git add .
 ```
 
 ```bash
-git commit -m "Add README.md with project documentation"
+git commit -m "Update to use Mistral AI model instead of LLaMA2"
 ```
 
 ```bash

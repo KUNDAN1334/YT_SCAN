@@ -1,5 +1,9 @@
 # YouTube AI Assistant Chrome Extension
 
+<img width="420" height="403" alt="image" src="https://github.com/user-attachments/assets/764a91b3-64b7-45ae-a275-70f942405add" />
+
+
+
 A Chrome extension that uses AI to answer questions about YouTube video content using RAG (Retrieval Augmented Generation) with Groq's Llama AI.
 
 ## Features

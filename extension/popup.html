@@ -1,15 +1,33 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>YouTube Chatbot</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YT_SCAN</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h2>YouTube RAG Chatbot</h2>
-  <input type="text" id="url" placeholder="Paste YouTube link" />
-  <input type="text" id="question" placeholder="Ask a question..." />
-  <button id="askBtn">Ask</button>
-  <p id="answer"></p>
+  <div class="popup-container">
+    <header class="header">
+      <img src="https://www.gstatic.com/youtube/img/branding/youtubelogo/svg/youtubelogo.svg" 
+           alt="YouTube" 
+           class="logo" />
+      <h2 class="brand">_SCAN</h2>
+    </header>
+
+    <p class="tagline">Ask anything about your favorite YouTube videos</p>
+
+    <div class="input-group">
+      <input type="text" id="url" placeholder="Paste YouTube video link..." />
+      <input type="text" id="question" placeholder="Ask a question..." />
+      <button id="askBtn">Ask</button>
+    </div>
+
+    <div class="answer-box">
+      <p id="answer">Your answer will appear here...</p>
+    </div>
+  </div>
+
   <script src="popup.js"></script>
 </body>
 </html>

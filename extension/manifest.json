@@ -1,13 +1,16 @@
 {
-    "manifest_version": 3,
-    "name": "YouTube Chatbot",
-    "version": "1.0",
-    "description": "Ask questions about any YouTube video",
-    "action": {
-      "default_popup": "popup.html",
-      "default_icon": {
-        "16": "icon.png"
-      }
-    },
-    "permissions": ["activeTab", "scripting"]
-  }
+  "manifest_version": 3,
+  "name": "YouTube Chatbot",
+  "version": "1.0",
+  "description": "Ask questions about any YouTube video",
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icon.png"
+    }
+  },
+  "permissions": ["activeTab", "scripting"],
+  "host_permissions": [
+    "https://yt-scan.onrender.com/*"
+  ]
+}

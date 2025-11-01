@@ -1,5 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
 from transcript_handler import get_transcript, extract_video_id
 from llama_chat import generate_answer
 
@@ -14,11 +15,16 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Request validation model
+class QuestionRequest(BaseModel):
+    video_url: str
+    question: str
+
 @app.post("/ask")
-async def ask_question(request: dict):
+async def ask_question(request: QuestionRequest):
     try:
-        video_url = request.get("video_url")
-        question = request.get("question")
+        video_url = request.video_url
+        question = request.question
         
         if not video_url or not question:
             raise HTTPException(status_code=400, detail="Missing video_url or question")
@@ -34,7 +40,7 @@ async def ask_question(request: dict):
         # Generate answer
         answer = generate_answer(transcript, question)
         
-        return {"answer": answer}
+        return {"answer": answer, "success": True}
         
     except HTTPException:
         raise
@@ -45,3 +51,8 @@ async def ask_question(request: dict):
 @app.get("/")
 async def root():
     return {"message": "YouTube Q&A API is running"}
+
+@app.options("/ask")
+async def options_ask():
+    """Handle CORS preflight requests"""
+    return {}
